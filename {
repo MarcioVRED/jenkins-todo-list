@@ -1,0 +1,232 @@
+Script started on 2024-05-01 15:37:43+0000
+                        try {
+                            sh 'docker run -d -p 81:8000 -v /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock -v /var/lib/jenkins/workspace/todo-list-desenvolvimento/.env:/usr/src/app/to_do/.env --name=django-todolist-dev ' + dockerImage + ':latest'
+                        } catch (Exception e) {
+                            slackSend (color: 'error', message: "[ FALHA ] Não foi possivel subir o container - ${BUILD_URL} em ${currentBuild.duration}s", tokenCredentialId: 'slack-token')
+                            sh "echo $e"
+                            currentBuild.result = 'ABORTED'
+                            error('Erro')
+                        }
+                    }
+                }
+            }
+            stage('Notificando o usuario') {
+                steps {
+                    slackSend (color: 'good', message: '[ Sucesso ] O novo build esta disponivel em: http://192.168.33.10:81/ ', tokenCredentialId: 'slack-token')
+                }
+            }
+            stage ('Fazer o deploy em producao?') {
+                steps {
+                    script {
+                        slackSend (color: 'warning', message: "Para aplicar a mudança em produção, acesse [Janela de 10 minutos]: ${JOB_URL}", tokenCredentialId: 'slack-token')
+                        timeout(time: 10, unit: 'MINUTES') {
+                            input(id: "Deploy Gate", message: "Deploy em produção?", ok: 'Deploy')
+                        }
+                    }
+                }
+            }
+            stage (deploy) {
+                steps {
+                    script {
+                        try {
+                            build job: 'todo-list-producao', parameters: [[$class: 'StringParameterValue', name: 'image', value: dockerImage]]
+                        } catch (Exception e) {
+                            slackSend (color: 'error', message: "[ FALHA ] Não foi possivel subir o container em producao - ${BUILD_URL}", tokenCredentialId: 'slack-token')
+                            sh "echo $e"
+                            currentBuild.result = 'ABORTED'
+                            error('Erro')
+                        }
+                    }
+                }
+            }
+        }
+    }]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$                         try {
+
+Command 'try' not found, did you mean:
+
+  command 'trn' from deb trn4
+  command 'tty' from deb coreutils
+  command 'pry' from deb pry
+  command 'trs' from deb konwert
+  command 'tr' from deb coreutils
+
+Try: apt install <deb name>
+
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$                             sh 'docker run -d -p 81:8000 -v /var/rrun/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock -v /var/lib/jenkins/workspace/todo-list-desenvolvimento/.env:/usrr/src/app/to_do/.env --name=django-todolist-dev ' + dockerImage + ':latest'
+sh: 0: Can't open docker run -d -p 81:8000 -v /var/run/mysqld/mysqld.sock:/var/run/mysqld/mysqld.sock -v /var/lib/jenkins/workspace/todo-list-desenvolvimento/.env:/usr/src/app/to_do/.env --name=django-todolist-dev 
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$                         } catch (Exception e) {
+bash: syntax error near unexpected token `}'
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$                             slackSend (color: 'error', message: "[[ FALHA ] Não foi possivel subir o container - ${BUILD_URL} em ${currentBuild.duration}s", tokenCredentialId: 'slackk-token')
+bash: syntax error near unexpected token `color:'
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$                             sh "echo $e"
+sh: 0: Can't open echo 
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$                             currentBuild.result = 'ABORTED'
+currentBuild.result: command not found
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$                             error('Erro')
+bash: syntax error near unexpected token `'Erro''
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$                         }
+bash: syntax error near unexpected token `}'
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$                     }
+bash: syntax error near unexpected token `}'
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$                 }
+bash: syntax error near unexpected token `}'
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$             }
+bash: syntax error near unexpected token `}'
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$             stage('Notificando o usuario') {
+bash: syntax error near unexpected token `'Notificando o usuario''
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$                 steps {
+^C
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ Failed to import the site module
+Traceback (most recent call last):
+  File "/usr/lib/python3.6/site.py", line 79, in <module>
+^C
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ ^C
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$     import os
+  File "/usr/lib/python3.6/os.py", line 652, in <module>
+    from _collections_abc import MutableMapping
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 955, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 665, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 674, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 779, in get_code
+  File "<frozen importlib._bootstrap_external>", line 487, in _compile_bytecode
+KeyboardInterrupt
+^C
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ ^C
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ ^C
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ git push
+fatal: The current branch main has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin main
+
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ git push --set-upstream origin main
+To github.com:marcioVRED/jenkins-todo-list.git
+ ! [rejected]        main -> main (non-fast-forward)
+error: failed to push some refs to 'git@github.com:marcioVRED/jenkins-todo-list.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ git pull
+There is no tracking information for the current branch.
+Please specify which branch you want to merge with.
+See git-pull(1) for details.
+
+    git pull <remote> <branch>
+
+If you wish to set tracking information for this branch you can do so with:
+
+    git branch --set-upstream-to=origin/<branch> main
+
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ git pull main
+fatal: 'main' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ cd ..
+]0;vagrant@ubuntu-bionic: /vagrant[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant[00m$ fi[K[Kgit pull
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+]0;vagrant@ubuntu-bionic: /vagrant[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant[00m$ cd ..
+]0;vagrant@ubuntu-bionic: /[01;32mvagrant@ubuntu-bionic[00m:[01;34m/[00m$ git pull
+fatal: not a git repository (or any of the parent directories): .git
+]0;vagrant@ubuntu-bionic: /[01;32mvagrant@ubuntu-bionic[00m:[01;34m/[00m$ cd /v[K[K/vagrant
+]0;vagrant@ubuntu-bionic: /vagrant[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant[00m$ cd /scripts
+bash: cd: /scripts: No such file or directory
+]0;vagrant@ubuntu-bionic: /vagrant[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant[00m$ git pull
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+]0;vagrant@ubuntu-bionic: /vagrant[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant[00m$ cd scripts
+]0;vagrant@ubuntu-bionic: /vagrant/scripts[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/scripts[00m$ git poull
+git: 'poull' is not a git command. See 'git --help'.
+
+The most similar command is
+	pull
+]0;vagrant@ubuntu-bionic: /vagrant/scripts[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/scripts[00m$ git status
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+]0;vagrant@ubuntu-bionic: /vagrant/scripts[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/scripts[00m$ cd je[K[K[K[K[Kls
+[0m[01;32mdocker.sh[0m  [01;32mget-docker.sh[0m  [01;32mjenkins.sh[0m
+]0;vagrant@ubuntu-bionic: /vagrant/scripts[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/scripts[00m$ cd ..
+]0;vagrant@ubuntu-bionic: /vagrant[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant[00m$ cd jenkins-todo-list/
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ git st[K[Ksta[Katus
+On branch main
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	[31m{[m
+
+nothing added to commit but untracked files present (use "git add" to track)
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ 
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ 
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ git o[Kcommit -m[K[K[K
+On branch main
+Untracked files:
+	[31m{[m
+
+nothing added to commit but untracked files present
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ ls -la
+total 53
+drwxrwxrwx 1 vagrant vagrant  4096 May  1 15:37  [0m[34;42m.[0m
+drwxrwxrwx 1 vagrant vagrant  4096 Apr 30 18:36  [34;42m..[0m
+drwxrwxrwx 1 vagrant vagrant  4096 May  1 15:40  [34t[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ ^C
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ ^C
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ git push
+fatal: The current branch main has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin main
+
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ git push --set-upstream origin main
+To github.com:marcioVRED/jenkins-todo-list.git
+ ! [rejected]        main -> main (non-fast-forward)
+error: failed to push some refs to 'git@github.com:marcioVRED/jenkins-todo-list.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ git pull
+There is no tracking information for the current branch.
+Please specify which branch you want to merge with.
+See git-pull(1) for details.
+
+    git pull <remote> <branch>
+
+If you wish to set tracking information for this branch you can do so with:
+
+    git branch --set-upstream-to=origin/<branch> main
+
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ git pull main
+fatal: 'main' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+]0;vagrant@ubuntu-bionic: /vagrant/jenkins-todo-list[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/jenkins-todo-list[00m$ cd ..
+]0;vagrant@ubuntu-bionic: /vagrant[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant[00m$ fi[K[Kgit pull
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+]0;vagrant@ubuntu-bionic: /vagrant[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant[00m$ cd ..
+]0;vagrant@ubuntu-bionic: /[01;32mvagrant@ubuntu-bionic[00m:[01;34m/[00m$ git pull
+fatal: not a git repository (or any of the parent directories): .git
+]0;vagrant@ubuntu-bionic: /[01;32mvagrant@ubuntu-bionic[00m:[01;34m/[00m$ cd /v[K[K/vagrant
+]0;vagrant@ubuntu-bionic: /vagrant[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant[00m$ cd /scripts
+bash: cd: /scripts: No such file or directory
+]0;vagrant@ubuntu-bionic: /vagrant[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant[00m$ git pull
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+]0;vagrant@ubuntu-bionic: /vagrant[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant[00m$ cd scripts
+]0;vagrant@ubuntu-bionic: /vagrant/scripts[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/scripts[00m$ git poull
+git: 'poull' is not a git command. See 'git --help'.
+
+The most similar command is
+	pull
+]0;vagrant@ubuntu-bionic: /vagrant/scripts[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/scripts[00m$ git status
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+]0;vagrant@ubuntu-bionic: /vagrant/scripts[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/scripts[00m$ cd je[K[K[K[K[Kls
+[0m[01;32mdocker.sh[0m  [01;32mget-docker.sh[0m  [01;32mjenkins.sh[0m
+]0;vagrant@ubuntu-bionic: /vagrant/scripts[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant/scripts[00m$ cd ..
+]0;vagrant@ubuntu-bionic: /vagrant[01;32mvagrant@ubuntu-bionic[00m:[01;34m/vagrant[00m$ cd je
